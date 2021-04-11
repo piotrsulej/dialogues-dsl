@@ -4,17 +4,17 @@ import com.pkselim.data.DialogueLine
 import com.pkselim.repository.DialogueRepository
 import com.pkselim.repository.InMemoryDialogueRepository
 
-class UpdateActiveDialogueLineInteractor(
+class UpdateActiveDialogueLine(
     private val dialogueRepository: DialogueRepository = InMemoryDialogueRepository.getInstance()
-) {
+) : () -> Unit {
 
-    fun updateActiveDialogueLine() {
+    override fun invoke() {
         val lines = dialogueLines()
         val dialogueEvent = dialogueRepository.getActiveDialogueLine()
         val nextDialogueIndex = lines.indexOf(dialogueEvent).inc()
         val nextLine = lines.getOrNull(nextDialogueIndex)
         if (nextLine != null) {
-            updateActiveDialogueLine(nextLine)
+            setActiveDialogueLine(nextLine)
         } else {
             resetActiveDialogueLine()
         }
@@ -25,7 +25,7 @@ class UpdateActiveDialogueLineInteractor(
         return dialogue?.lines?.toList() ?: emptyList()
     }
 
-    private fun updateActiveDialogueLine(line: DialogueLine) {
+    private fun setActiveDialogueLine(line: DialogueLine) {
         dialogueRepository.setActiveDialogueLine(line)
     }
 

@@ -8,16 +8,16 @@ import com.pkselim.data.DialogueOption
 import com.pkselim.repository.DialogueRepository
 import org.junit.Test
 
-class UpdateActiveDialogueLineInteractorTest {
+class UpdateActiveDialogueLineTest {
 
     private val dialogueRepository: DialogueRepository = mock()
-    private val interactor = UpdateActiveDialogueLineInteractor(dialogueRepository)
+    private val testSubject = UpdateActiveDialogueLine(dialogueRepository)
 
     @Test
-    fun `No active line WHEN no selected option`() {
+    fun `No active line`() {
         whenever(dialogueRepository.getSelectedDialogue()).thenReturn(null)
 
-        interactor.updateActiveDialogueLine()
+        testSubject()
 
         verify(dialogueRepository).setActiveDialogueLine(null)
     }
@@ -37,7 +37,7 @@ class UpdateActiveDialogueLineInteractorTest {
 
         whenever(dialogueRepository.getSelectedDialogue()).thenReturn(selectedOption)
 
-        interactor.updateActiveDialogueLine()
+        testSubject()
 
         verify(dialogueRepository).setActiveDialogueLine(firstDialogueLine)
     }
@@ -60,7 +60,7 @@ class UpdateActiveDialogueLineInteractorTest {
         whenever(dialogueRepository.getActiveDialogueLine()).thenReturn(currentActiveDialogueLine)
         whenever(dialogueRepository.getSelectedDialogue()).thenReturn(selectedOption)
 
-        interactor.updateActiveDialogueLine()
+        testSubject()
 
         verify(dialogueRepository).setActiveDialogueLine(nextDialogueLine)
     }

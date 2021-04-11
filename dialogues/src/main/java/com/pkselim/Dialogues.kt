@@ -2,14 +2,18 @@ package com.pkselim
 
 import com.pkselim.data.Character
 import com.pkselim.data.DialogueOption
-import com.pkselim.interactor.UpdateActiveDialogueLineInteractor
+import com.pkselim.interactor.GetActiveDialogueOptionsForCharacter
+import com.pkselim.interactor.SelectDialogueOption
+import com.pkselim.interactor.UpdateActiveDialogueLine
 import com.pkselim.repository.CharactersRepository
 import com.pkselim.repository.DialogueRepository
 import com.pkselim.repository.InMemoryDialogueRepository
 
 val charactersRepository = CharactersRepository.getInstance()
 val dialogueRepository: DialogueRepository = InMemoryDialogueRepository.getInstance()
-val processDialogueLineInteractor = UpdateActiveDialogueLineInteractor()
+val updateActiveDialogueLine = UpdateActiveDialogueLine()
+val selectDialogueOption = SelectDialogueOption()
+val getActiveDialogueOptionsForCharacter = GetActiveDialogueOptionsForCharacter()
 
 fun main() {
     processInput()
@@ -25,7 +29,7 @@ private fun processInput() {
 
 private fun processInput(input: String) {
     val selectedNpc = charactersRepository.getCharacters().firstOrNull { character ->
-        character.name == input
+        character.name.equals(input, ignoreCase = true)
     }
     if (selectedNpc != null) {
         processNpcSelection(selectedNpc)
@@ -37,10 +41,10 @@ private fun processInput(input: String) {
 }
 
 private fun processNpcSelection(character: Character) {
-    val options = character.dialogueOptions
+    val options = getActiveDialogueOptionsForCharacter(character)
     if (options.isNotEmpty()) {
         printDialogueOptions(options)
-        processDialogueOptionSelection(options)
+        processDialogueOptionSelection(options, character)
     } else {
         println("${character.name} doesn't want to talk with you.")
     }
@@ -53,14 +57,14 @@ private fun printDialogueOptions(options: List<DialogueOption>) {
     }
 }
 
-private fun processDialogueOptionSelection(options: List<DialogueOption>) {
+private fun processDialogueOptionSelection(options: List<DialogueOption>, character: Character) {
     val dialogueOption = readLine()?.toIntOrNull()?.dec()?.let { index -> options[index] }
-    dialogueRepository.setSelectedDialogue(dialogueOption)
+    selectDialogueOption(dialogueOption, character)
     processDialogueLine()
 }
 
 private fun processDialogueLine() {
-    processDialogueLineInteractor.updateActiveDialogueLine()
+    updateActiveDialogueLine()
     dialogueRepository.getActiveDialogueLine()?.let { line ->
         val prefix = line.npcId
             ?.let { charactersRepository.getCharacter(it)?.name }
