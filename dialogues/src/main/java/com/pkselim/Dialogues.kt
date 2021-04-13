@@ -5,7 +5,7 @@ import com.pkselim.data.DialogueOption
 import com.pkselim.interactor.GetActiveDialogueOptionsForCharacter
 import com.pkselim.interactor.SelectDialogueOption
 import com.pkselim.interactor.UpdateActiveDialogueLine
-import com.pkselim.repository.CharactersRepository
+import com.pkselim.repository.character.CharactersRepository
 import com.pkselim.repository.DialogueRepository
 import com.pkselim.repository.InMemoryDialogueRepository
 
@@ -58,7 +58,7 @@ private fun printDialogueOptions(options: List<DialogueOption>) {
 }
 
 private fun processDialogueOptionSelection(options: List<DialogueOption>, character: Character) {
-    val dialogueOption = readLine()?.toIntOrNull()?.dec()?.let { index -> options[index] }
+    val dialogueOption = readLine()?.toIntOrNull()?.dec()?.let { index -> options.getOrNull(index) }
     selectDialogueOption(dialogueOption, character)
     processDialogueLine()
 }

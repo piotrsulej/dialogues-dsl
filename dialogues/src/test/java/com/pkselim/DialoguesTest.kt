@@ -3,7 +3,7 @@ package com.pkselim
 import com.pkselim.interactor.GetActiveDialogueOptionsForCharacter
 import com.pkselim.interactor.SelectDialogueOption
 import com.pkselim.interactor.UpdateActiveDialogueLine
-import com.pkselim.repository.CharactersRepository
+import com.pkselim.repository.character.CharactersRepository
 import com.pkselim.repository.DialogueRepository
 import com.pkselim.repository.InMemoryDialogueRepository
 import org.assertj.core.api.Assertions.assertThat
