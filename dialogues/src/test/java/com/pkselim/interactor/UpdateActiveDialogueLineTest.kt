@@ -1,8 +1,6 @@
 package com.pkselim.interactor
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import com.pkselim.data.DialogueLine
 import com.pkselim.data.DialogueOption
 import com.pkselim.repository.DialogueRepository
@@ -15,11 +13,13 @@ class UpdateActiveDialogueLineTest {
 
     @Test
     fun `No active line`() {
-        whenever(dialogueRepository.getSelectedDialogue()).thenReturn(null)
+        given(dialogueRepository.getSelectedDialogue()).willReturn(null)
 
         testSubject()
 
-        verify(dialogueRepository).setActiveDialogueLine(null)
+        then(dialogueRepository)
+            .should()
+            .setActiveDialogueLine(null)
     }
 
     @Test
@@ -35,11 +35,13 @@ class UpdateActiveDialogueLineTest {
             id = 123
         )
 
-        whenever(dialogueRepository.getSelectedDialogue()).thenReturn(selectedOption)
+        given(dialogueRepository.getSelectedDialogue()).willReturn(selectedOption)
 
         testSubject()
 
-        verify(dialogueRepository).setActiveDialogueLine(firstDialogueLine)
+        then(dialogueRepository)
+            .should()
+            .setActiveDialogueLine(firstDialogueLine)
     }
 
     @Test
@@ -57,11 +59,13 @@ class UpdateActiveDialogueLineTest {
             id = 1234
         )
 
-        whenever(dialogueRepository.getActiveDialogueLine()).thenReturn(currentActiveDialogueLine)
-        whenever(dialogueRepository.getSelectedDialogue()).thenReturn(selectedOption)
+        given(dialogueRepository.getActiveDialogueLine()).willReturn(currentActiveDialogueLine)
+        given(dialogueRepository.getSelectedDialogue()).willReturn(selectedOption)
 
         testSubject()
 
-        verify(dialogueRepository).setActiveDialogueLine(nextDialogueLine)
+        then(dialogueRepository)
+            .should()
+            .setActiveDialogueLine(nextDialogueLine)
     }
 }

@@ -1,6 +1,7 @@
 package com.pkselim.interactor
 
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.then
 import com.nhaarman.mockitokotlin2.verify
 import com.pkselim.data.Character
 import com.pkselim.data.DialogueOption
@@ -20,7 +21,9 @@ class SelectDialogueOptionTest {
 
         testSubject(option, character)
 
-        verify(dialogueRepository).setSelectedDialogue(option)
+        then(dialogueRepository)
+            .should()
+            .setSelectedDialogue(option)
     }
 
     @Test
@@ -31,6 +34,8 @@ class SelectDialogueOptionTest {
 
         testSubject(option, character)
 
-        verify(dialogueRepository).markAsDiscussed(reference)
+        then(dialogueRepository)
+            .should()
+            .markAsDiscussed(reference)
     }
 }

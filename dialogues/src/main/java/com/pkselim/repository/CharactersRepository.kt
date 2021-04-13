@@ -3,6 +3,7 @@ package com.pkselim.repository
 import com.pkselim.data.Character
 import com.pkselim.data.DialogueLine
 import com.pkselim.data.DialogueOption
+import com.pkselim.data.DialogueReference
 
 class CharactersRepository private constructor() {
 
@@ -22,8 +23,18 @@ class CharactersRepository private constructor() {
                             DialogueLine(message = "Fine, thank you. And you?", npcId = 1),
                             DialogueLine(message = "Very good, thank you.")
                         ),
+                        permanent = true,
                         id = 1
                     ),
+                    DialogueOption(
+                        description = "Have you heard what Adam said about you?",
+                        lines = listOf(
+                            DialogueLine(message = "Have you heard what Adam said about you?"),
+                            DialogueLine(message = "Yes, it was very rude from him.", npcId = 1)
+                        ),
+                        id = 2,
+                        allDialoguesDiscussed = setOf(DialogueReference(2, 2))
+                    )
                 ),
                 id = 1
             ),

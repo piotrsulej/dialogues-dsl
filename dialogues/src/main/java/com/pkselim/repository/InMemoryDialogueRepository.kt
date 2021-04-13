@@ -4,7 +4,7 @@ import com.pkselim.data.DialogueLine
 import com.pkselim.data.DialogueOption
 import com.pkselim.data.DialogueReference
 
-class InMemoryDialogueRepository private constructor() : DialogueRepository {
+class InMemoryDialogueRepository : DialogueRepository {
 
     private var discussedDialogues: MutableSet<DialogueReference> = mutableSetOf()
     private var activeDialogueLine: DialogueLine? = null
@@ -26,7 +26,7 @@ class InMemoryDialogueRepository private constructor() : DialogueRepository {
         discussedDialogues.add(dialogue)
     }
 
-    override fun isDiscussed(dialogue: DialogueReference): Boolean =
+    override fun wasDiscussed(dialogue: DialogueReference): Boolean =
         discussedDialogues.contains(dialogue)
 
     companion object {

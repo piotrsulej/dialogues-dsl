@@ -16,5 +16,5 @@ interface DialogueRepository {
 
     fun markAsDiscussed(dialogue: DialogueReference)
 
-    fun isDiscussed(dialogue: DialogueReference): Boolean
+    fun wasDiscussed(dialogue: DialogueReference): Boolean
 }
